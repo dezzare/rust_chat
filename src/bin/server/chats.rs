@@ -27,18 +27,18 @@ impl Chats {
 }
 
 async fn sub(
-    chat_name: Arc<String>,
+    chats_name: Arc<String>,
     mut receiver: broadcast::Receiver<Arc<String>>,
     leaving: Arc<Leaving>,
 ) {
     loop {
         let packet = match receiver.recv().await {
             Ok(message) => Server::Message {
-                chat_name: chat_name.clone(),
+                chat_name: chats_name.clone(),
                 message: message.clone(),
             },
             Err(RecvError::Lagged(n)) => {
-                Server::Error(format!("Foram perdidas {} mensagens de {}.", n, chat_name))
+                Server::Error(format!("Foram perdidas {} mensagens de {}.", n, chats_name))
             }
             Err(RecvError::Closed) => break,
         };

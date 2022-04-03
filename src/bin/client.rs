@@ -66,7 +66,7 @@ fn get_value(mut input: &str) -> Option<(&str, &str)> {
 
 fn parse_input(line: &str) -> Option<Client> {
     let (input, remainder) = get_value(line)?;
-    if input == "join" {
+    if input == "/join" || input == "/j" {
         let (chat, remainder) = get_value(remainder)?;
         if !remainder.trim_start().is_empty() {
             return None;
@@ -74,7 +74,7 @@ fn parse_input(line: &str) -> Option<Client> {
         return Some(Client::Join {
             chat_name: Arc::new(chat.to_string()),
         });
-    } else if input == "post" {
+    } else if input == "/post" || input == "/p" {
         let (chat, remainder) = get_value(remainder)?;
         let message = remainder.trim_start().to_string();
         return Some(Client::Post {
